@@ -1,0 +1,3 @@
+iPhone 6
+Aspect Ratio: 9:16
+Resolution (px): 750 (w) x 1334 (h)
