@@ -8,12 +8,6 @@
  */
 try {
 
-  // Resize layout window.
-  // app.layoutWindows[0].zoomPercentage = 40;
-
-  // Flag that determines if we're reading json or csv
-  var mode;
-
   // Prompt user to select input file.
   var newDoc = File.openDialog("Select a JSON or CSV File:");
   var fileName = newDoc.name;
@@ -24,26 +18,43 @@ try {
   switch(fileExtension){
     case "JSON":
     case "json":
-      alert("JSON File");
+      readJson(newDoc);
       break;
     case "csv":
     case "CSV":
-      alert("JSON File");
+      readCsv(newDoc);
       break;
     default:
       alert("That file format is not supported. :(");
       break;
   }
+}
+catch (e) {
+  // Do nothing for now.
+  alert("e = "+ e.toString());
+};
 
 
-  /**
-  if (myDocument.open("r")){
+/**
+ * Read the contents of a json file.
+ */
+function readJson(file){
+  // TODO
+}
 
+/**
+ * Loop through the contents of the file, parse each row, and
+ * create a new indesign page.
+ * @param {File} Adobe Indesign File Object
+ */
+function readCsv(myDocument){
+
+  if (myDocument.open("r") && myDocument instanceof File){
     do{
       var csvRow =  myDocument.readln();
 
       var csvArray = [];
-      csvArray = parseCSV(csvRow);
+      csvArray = parseCsvRow(csvRow);
 
       // Retrieve active document.
       var doc = app.activeDocument;
@@ -70,24 +81,23 @@ try {
       // Adding a new page.
       app.layoutWindows[0].activePage.duplicate(
         LocationOptions.AFTER, app.layoutWindows[0].activePage);
-    }
-    while(!myDocument.eof);
-    // Close file once all of the data has been read.
-    myDocument.close();
-
-    // Adding new
-    //doc.pages.add();
-  }*/
+      }
+      while(!myDocument.eof);
+      // Close file once all of the data has been read.
+      myDocument.close();
+  }
+  else{
+    // Error condition.
+    alert("I'm unable to read this CSV file. :(");
+  }
 }
-catch (e) {
-  // Do nothing for now.
-  alert("e = "+ e.toString());
-};
 
-/*
- http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
+/**
+ * Reads a single row from a CSV File.
+ * @param {String} str
+ * @return {Array} arr
  */
-function parseCSV(str) {
+function parseCsvRow(str) {
   var arr = [];
   var quote = false;  // true means we're inside a quoted field
 
@@ -116,4 +126,13 @@ function parseCSV(str) {
     arr[row][col] += cc;
   }
   return arr;
+}
+
+/**
+ * Create new indesign page for a device.
+ * @param {ARRAY} deviceData: Details such as aspect ratio, os, and resolution.
+ * @platform {String} platform: determines the indesign layout that is used.
+ */
+function createPage(deviceData, platform){
+  // TODO
 }
