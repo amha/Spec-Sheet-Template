@@ -11,58 +11,82 @@ try {
   // Resize layout window.
   // app.layoutWindows[0].zoomPercentage = 40;
 
-  // Load text file.
-  // TODO: Change to open file dialog.
-  var myDocument = new File("/Volumes/Amha's Thumb/Indesign-Text-Entry/sample.csv");
+  // Flag that determines if we're reading json or csv
+  var mode;
 
+  // Prompt user to select input file.
+  var newDoc = File.openDialog("Select a JSON or CSV File:");
+  var fileName = newDoc.name;
+  var fileTypeIndexPostion = fileName.lastIndexOf(".") + 1;
+  var fileExtension = fileName.substring(fileTypeIndexPostion);
+
+  // Handoff processing to the appropriate method based in file extension.
+  switch(fileExtension){
+    case "JSON":
+    case "json":
+      alert("JSON File");
+      break;
+    case "csv":
+    case "CSV":
+      alert("JSON File");
+      break;
+    default:
+      alert("That file format is not supported. :(");
+      break;
+  }
+
+
+  /**
   if (myDocument.open("r")){
 
     do{
-    var csvRow =  myDocument.readln();
+      var csvRow =  myDocument.readln();
 
-    var csvArray = [];
-    csvArray = parseCSV(csvRow);
+      var csvArray = [];
+      csvArray = parseCSV(csvRow);
 
-    // Retrieve active document.
-    var doc = app.activeDocument;
+      // Retrieve active document.
+      var doc = app.activeDocument;
 
-    // Retrieve all text frames from active document.
-    var docTextFrames = doc.textFrames;
+      // Retrieve all text frames from active document.
+      var docTextFrames = doc.textFrames;
 
-    // Map content from sample file to active document.
-    var device = docTextFrames.itemByName("device_name");
-    device.contents = csvArray[0][0];
+      // Map content from sample file to active document.
+      var device = docTextFrames.itemByName("device_name");
+      device.contents = csvArray[0][0];
 
-    var os = docTextFrames.itemByName("platform");
-    os.contents = csvArray[0][1] +" " + csvArray[0][2];
+      var os = docTextFrames.itemByName("platform");
+      os.contents = csvArray[0][1] +" " + csvArray[0][2];
 
-    var release = docTextFrames.itemByName("release_date");
-    release.contents = csvArray[0][5];
+      var release = docTextFrames.itemByName("release_date");
+      release.contents = csvArray[0][5];
 
-    var viewPortWidth = docTextFrames.itemByName("viewport_width");
-    viewPortWidth.contents = csvArray[0][3] + " px";
+      var viewPortWidth = docTextFrames.itemByName("viewport_width");
+      viewPortWidth.contents = csvArray[0][3] + " px";
 
-    var viewPortHieght = docTextFrames.itemByName("viewport_hieght");
-    viewPortHieght.contents = csvArray[0][4] + " px";
+      var viewPortHieght = docTextFrames.itemByName("viewport_hieght");
+      viewPortHieght.contents = csvArray[0][4] + " px";
 
-    // Adding a new page.
-    app.layoutWindows[0].activePage.duplicate(
-      LocationOptions.AFTER, app.layoutWindows[0].activePage)
+      // Adding a new page.
+      app.layoutWindows[0].activePage.duplicate(
+        LocationOptions.AFTER, app.layoutWindows[0].activePage);
     }
     while(!myDocument.eof);
     // Close file once all of the data has been read.
     myDocument.close();
 
-
+    // Adding new
     //doc.pages.add();
-  }
+  }*/
 }
 catch (e) {
   // Do nothing for now.
   alert("e = "+ e.toString());
 };
 
-
+/*
+ http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
+ */
 function parseCSV(str) {
   var arr = [];
   var quote = false;  // true means we're inside a quoted field
